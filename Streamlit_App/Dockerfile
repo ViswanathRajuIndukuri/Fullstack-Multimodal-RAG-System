@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir poetry
 WORKDIR /app
 
 # Copy the Streamlit_app directory and Poetry files from the root context
-COPY ./Streamlit_UI_App /app
+COPY ./Streamlit_App /app
 COPY ./poetry.lock /app
 COPY ./pyproject.toml /app
 
