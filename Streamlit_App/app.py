@@ -79,6 +79,38 @@ def public_home():
         unsafe_allow_html=True,
     )
     st.write("---")
+    st.markdown(
+        """
+        <div style="margin: 2rem auto; max-width: 800px; font-size:1.1rem; line-height:1.7;">
+        <b>What is this?</b><br>
+        The Multimodal Retrieval-Augmented Generation System is an advanced AI application designed to help you search, analyze, and interact with complex documents-especially CFA publications and financial PDFs-using the latest in multimodal AI technology.
+        <br><br>
+        <b>How does it work?</b>
+        <ul>
+          <li><b>Data Scraping & Ingestion:</b> Automatically collects CFA publications, loading PDFs to Google Cloud Platform (GCP).</li>
+          <li><b>PDF Parsing:</b> Extracts both text and images using <b>pymupdf4llm</b> and <b>Upstage Document API</b> for rich, multimodal understanding.</li>
+          <li><b>Vectorization:</b> Converts extracted text into high-performance search indexes using <b>OpenAI embeddings</b> and <b>Pinecone</b> vector store.</li>
+          <li><b>Multimodal Q/A:</b> Enables you to ask questions about both text and images, powered by <b>OpenAI GPT-4o</b> and <b>Gemini 2.5 Pro</b> for robust, context-aware answers.</li>
+          <li><b>Modern Deployment:</b> Runs securely in Docker containers, orchestrated via Docker Compose and deployed on GCP for scalability and reliability.</li>
+        </ul>
+        <b>Tech Stack Highlights:</b>
+        <ul>
+          <li>PDF Parsing: <b>pymupdf4llm</b>, <b>Upstage Document API</b></li>
+          <li>AI & Multimodal Data: <b>Gemini 2.5 Pro</b>, <b>OpenAI GPT-4o</b></li>
+          <li>Vector Store: <b>Pinecone</b></li>
+          <li>Frontend: <b>Streamlit</b> | Backend: <b>FastAPI</b></li>
+        </ul>
+        <b>What can you do?</b>
+        <ul>
+          <li>Chat with your financial documents: Ask questions about tables, charts, or text.</li>
+          <li>Search across multiple documents with lightning-fast, AI-powered retrieval.</li>
+          <li>Get context-rich, multimodal answers-instantly.</li>
+        </ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.write("---")
     st.markdown('<div style="text-align:center;font-size:1.5rem;">🚀 Click <b>🔒 Login</b> to get started</div>', unsafe_allow_html=True)
 
 # ─────────────────────────  CHAT UTILITIES  ─────────────────────────────────-
@@ -92,44 +124,71 @@ def _load_indexes():
     else:
         st.error(resp.json().get("detail", resp.text))
 
-# ─────────────────────────  CHAT PAGE  ───────────────────────────────────────
 def chat_page():
     # Sidebar
     with st.sidebar:
         st.markdown(f"### 👋 Hi, {st.session_state.username}")
+        st.caption("You are logged in. Use the controls below to manage your session and indexes.")
+
         if st.button("🚪 Logout"):
             _reset_session(); st.session_state.page = "home"; _rerun()
 
         st.write("---")
+        st.markdown("#### 📄 Manage Document Indexes")
+        st.caption("Indexes represent collections of parsed documents you can chat with.")
+
         if st.button("🔄 Refresh Indexes") or not st.session_state.indexes:
             _load_indexes()
 
         if st.session_state.indexes:
             st.session_state.selected_index = st.selectbox(
-                "📂 Index",
+                "📂 Select an Index",
                 st.session_state.indexes,
                 index=st.session_state.indexes.index(st.session_state.selected_index)
                 if st.session_state.selected_index in st.session_state.indexes else 0,
+                help="Choose which document collection to chat with."
             )
+            st.success(f"Active index: {st.session_state.selected_index}")
         else:
-            st.info("No indexes available.")
+            st.info("No indexes available. Please upload or refresh.")
+
+        st.write("---")
+        st.markdown("#### 💡 Tips")
+        st.markdown(
+            """
+            - Ask about tables, figures, or any content in your documents.
+            - Use clear, specific questions for best results.
+            - Switch indexes to chat with different document sets.
+            """
+        )
 
     # Main area
-    st.markdown("<h2>💬 Chat with your documents</h2>", unsafe_allow_html=True)
+    st.markdown("<h2>💬 Chat with Your Documents</h2>", unsafe_allow_html=True)
+    st.caption("Type your question below to interact with your selected document index. The assistant can answer questions about both text and images in your PDFs.")
 
+    # Show chat history with clear roles and timestamps (if available)
     for msg in st.session_state.chat_history:
         cls = "user-bubble" if msg["role"] == "user" else "ai-bubble"
-        st.markdown(f'<div class="chat-bubble {cls}">{msg["content"]}</div>', unsafe_allow_html=True)
+        role = "You" if msg["role"] == "user" else "Assistant"
+        timestamp = (
+            f"<span style='font-size:0.8em;color:#888;'>[{msg.get('timestamp','')[:19].replace('T',' ')}]</span>"
+            if "timestamp" in msg else ""
+        )
+        st.markdown(
+            f'<div class="chat-bubble {cls}"><b>{role}:</b> {msg["content"]} {timestamp}</div>',
+            unsafe_allow_html=True
+        )
 
+    # Chat input
     query = st.chat_input("Ask something…")
     if query and st.session_state.selected_index:
         now = datetime.now(timezone.utc).isoformat()
         st.session_state.chat_history.append({"role": "user", "content": query, "timestamp": now})
-        st.markdown(f'<div class="chat-bubble user-bubble">{query}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="chat-bubble user-bubble"><b>You:</b> {query}</div>', unsafe_allow_html=True)
 
         # Show spinner while waiting for backend
         with st.spinner("Generating answer…"):
-            payload = {"question": query, "top_k": 5}
+            payload = {"question": query, "top_k": 10}
             resp = requests.post(
                 f"{API_URL}/qa/{st.session_state.selected_index}",
                 json=payload,
@@ -140,7 +199,20 @@ def chat_page():
 
         now = datetime.now(timezone.utc).isoformat()
         st.session_state.chat_history.append({"role": "assistant", "content": answer, "timestamp": now})
-        st.markdown(f'<div class="chat-bubble ai-bubble">{answer}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="chat-bubble ai-bubble"><b>Assistant:</b> {answer}</div>', unsafe_allow_html=True)
+
+    # Optional: Add a divider and a short help section at the bottom
+    st.write("---")
+    st.markdown(
+        """
+        <div style="font-size:0.95em;color:#555;">
+            <b>About:</b> This chat uses advanced Retrieval-Augmented Generation (RAG) to answer your queries using both text and images from your selected documents.<br>
+            <b>Powered by:</b> OpenAI, Gemini, Pinecone, Document AI.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 # ─────────────────────────  SIGN IN / SIGN UP  ───────────────────────────────
 def signin_page():
