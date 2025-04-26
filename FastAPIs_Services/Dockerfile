@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir poetry
 WORKDIR /app
 
 # Copy the FastAPI directory and Poetry files from the root context
-COPY ./FastAPI_Services /app
+COPY ./FastAPIs_Services /app
 COPY ./poetry.lock /app
 COPY ./pyproject.toml /app
 

@@ -19,4 +19,4 @@ RUN poetry config virtualenvs.create false && poetry install --no-root --no-cach
 EXPOSE 8501
 
 # Run Streamlit when the container launches
-CMD ["poetry", "run", "streamlit", "run", "Home.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["poetry", "run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
