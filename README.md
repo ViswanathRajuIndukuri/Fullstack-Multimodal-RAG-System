@@ -100,7 +100,8 @@ graph TD
 ```
 
 ### Document Parsing Architecture
-![alt text](image.png)
+![image](https://github.com/user-attachments/assets/73d71d4e-8f54-4e63-88a3-20c027f77b8f)
+
 
 ### Application Workflow
 ```mermaid
