@@ -2,12 +2,14 @@ services:
   fastapi:
     build:
       context: .  # Set the build context to the root directory
-      dockerfile: ./FastAPI_Services/Dockerfile  # FastAPI Dockerfile in Fast_API folder
+      dockerfile: ./FastAPIs_Services/Dockerfile  # FastAPI Dockerfile in Fast_API folder
     container_name: fastapi_container
     ports:
       - "8000:8000"
     env_file:
       - ./.env  # Pass the .env file located in the root directory at runtime
+    volumes:
+      - ./multimodal-rag-457721-feccdef6281a.json:/app/multimodal-rag-457721-feccdef6281a.json
     networks:
       - app-network
 
