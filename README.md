@@ -60,7 +60,6 @@ This project implements a comprehensive multimodal retrieval-augmented generatio
 ### Vector Database
 - **Embeddings**: Created text embeddings using OpenAI's embedding models
 - **Storage**: Stored vectors in Pinecone for efficient similarity search and retrieval
-- **Indexing**: Optimized index configuration for financial document retrieval
 
 ### Q&A System
 - **Backend**: FastAPI service to handle requests and coordinate with the RAG engine
