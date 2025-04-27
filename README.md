@@ -47,34 +47,52 @@ This project implements a comprehensive multimodal retrieval-augmented generatio
 
 ## Technical Implementation
 
-### Data Collection and Preparation
-- **Web Scraping**: Utilized crawl4ai to scrape CFA publication PDF links
-- **Storage**: Uploaded PDFs to Google Cloud Storage for processing and persistence
+### 1. Data Collection and Preparation
+- **Web Scraping**: Scraped CFA publication PDF links using **crawl4ai**.
+- **Storage**: Uploaded and managed PDFs within **Google Cloud Storage**.
+- **User Authentication**: Integrated **JWT-based authentication** using **GCloud PostgreSQL** for secure user access.
 
-### PDF Processing
-- **Text Extraction**: Used PyMuPDF4LLMs for efficient and accurate text extraction from PDFs
-- **Image Extraction**: Leveraged Upstage Document Parse API to identify and extract relevant images
-- **Multimodal Data**: Generated additional context data using Gemini 2.5 Pro
+### 2. PDF Processing
+- **Text Extraction**: Parsed PDFs for text using **PyMuPDF4LLM**.
+- **Image Extraction**: Extracted relevant images using **Upstage Document Parse API**.
+- **Multimodal Data Generation**: Enriched documents with additional contextual information using **Gemini 2.5 Pro**.
 
-### Vector Database
-- **Embeddings**: Created text embeddings using OpenAI's embedding models
-- **Storage**: Stored vectors in Pinecone for efficient similarity search and retrieval
+### 3. Vector Database and Search
+- **Embeddings**: Created high-quality text embeddings using **OpenAI embedding models**.
+- **Storage**: Stored embeddings in **Pinecone** for fast similarity search and retrieval.
 
-### Q&A System
-- **Backend**: FastAPI service to handle requests and coordinate with the RAG engine
-- **LLM Integration**: Used OpenAI GPT-4o for generating accurate, contextual answers
-- **Frontend**: Streamlit interface for an intuitive user experience
-- **Response Generation**: Implemented techniques to ensure factual and relevant answers
+### 4. Intelligent Q&A System
+- **Backend**: Developed a **FastAPI** service to handle Q&A requests and coordinate with the RAG (Retrieval-Augmented Generation) engine.
+- **LLM Integration**: Powered answer generation using **OpenAI GPT-4o** via **LangChain** and **LangGraph** frameworks.
+- **Frontend**: Built an interactive **Streamlit** web interface for seamless user interaction.
+- **Response Generation**: Implemented advanced prompt techniques to ensure **factual, multimodal, and contextually relevant answers**.
 
-### Deployment
-- **Containerization**: Packaged components as Docker containers
-- **Orchestration**: Used Docker Compose for service coordination
-- **Hosting**: Deployed on Google Cloud Platform for reliability and scalability
+### 5. Deployment
+- **Containerization**: Packaged all services as lightweight **Docker images**.
+- **Orchestration**: Managed multi-service architecture using **Docker Compose**.
+- **Hosting**: Deployed services on **Google Cloud Platform (GCP)** ensuring high reliability and scalability.
+
+---
+
+## Tech Stack Overview
+
+| Component                    | Tools & Technologies                     |
+|-------------------------------|------------------------------------------|
+| **Scraping**                  | crawl4ai, Google Cloud Storage           |
+| **Authentication**            | GCloud PostgreSQL, JWT                   |
+| **PDF Parsing**               | PyMuPDF4LLM, Upstage Document Parse API  |
+| **Multimodal Data Generation**| Gemini (gemini-2.5-pro)                  |
+| **Vector Store**              | Pinecone                                 |
+| **Q/A Engine**                | OpenAI (gpt-4o), LangChain, LangGraph     |
+| **Backend**                   | FastAPI                                  |
+| **Frontend**                  | Streamlit                                |
+| **Deployment**                | Docker, Docker Compose, Google Cloud     |
+
 
 ## Architecture
 
 ### System Architecture
-![image](https://github.com/user-attachments/assets/88a967f4-6782-451b-b20e-389eae700954)
+![image](https://github.com/user-attachments/assets/f1d25bbf-7f43-40d0-ad4e-c34339768f2f)
 
 ### Images Parsing Architecture
 ![image](https://github.com/user-attachments/assets/73d71d4e-8f54-4e63-88a3-20c027f77b8f)
