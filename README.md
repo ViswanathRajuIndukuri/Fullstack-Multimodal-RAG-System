@@ -76,7 +76,7 @@ This project implements a comprehensive multimodal retrieval-augmented generatio
 ### System Architecture
 ![image](https://github.com/user-attachments/assets/88a967f4-6782-451b-b20e-389eae700954)
 
-### Document Parsing Architecture
+### Images Parsing Architecture
 ![image](https://github.com/user-attachments/assets/73d71d4e-8f54-4e63-88a3-20c027f77b8f)
 
 
