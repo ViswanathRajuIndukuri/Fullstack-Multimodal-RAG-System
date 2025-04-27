@@ -50,7 +50,6 @@ This project implements a comprehensive multimodal retrieval-augmented generatio
 ### Data Collection and Preparation
 - **Web Scraping**: Utilized crawl4ai to scrape CFA publication PDF links
 - **Storage**: Uploaded PDFs to Google Cloud Storage for processing and persistence
-- **Processing**: Implemented a pipeline to handle document processing at scale
 
 ### PDF Processing
 - **Text Extraction**: Used PyMuPDF4LLMs for efficient and accurate text extraction from PDFs
