@@ -76,28 +76,7 @@ This project implements a comprehensive multimodal retrieval-augmented generatio
 ## Architecture
 
 ### System Architecture
-```mermaid
-graph TD
-    A[Data Scraping] -->|CFA PDFs| B[GCP Storage]
-    B --> C[PDF Processing]
-    C -->|Text| D[Text Vectorization]
-    C -->|Images| E[Image Processing]
-    D --> F[Pinecone Vector DB]
-    E --> F
-    F --> G[RAG System]
-    G --> H[FastAPI Backend]
-    H --> I[Streamlit Frontend]
-    
-    style A fill:#f9d5e5,stroke:#333,stroke-width:2px
-    style B fill:#d5e5f9,stroke:#333,stroke-width:2px
-    style C fill:#e5f9d5,stroke:#333,stroke-width:2px
-    style D fill:#f9e5d5,stroke:#333,stroke-width:2px
-    style E fill:#d5f9e5,stroke:#333,stroke-width:2px
-    style F fill:#e5d5f9,stroke:#333,stroke-width:2px
-    style G fill:#f9f9d5,stroke:#333,stroke-width:2px
-    style H fill:#d5f9f9,stroke:#333,stroke-width:2px
-    style I fill:#f9d5f9,stroke:#333,stroke-width:2px
-```
+![image](https://github.com/user-attachments/assets/4463849a-fa55-4f59-9f8a-b46c7738cb2e)
 
 ### Document Parsing Architecture
 ![image](https://github.com/user-attachments/assets/73d71d4e-8f54-4e63-88a3-20c027f77b8f)
