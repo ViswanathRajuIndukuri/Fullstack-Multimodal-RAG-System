@@ -22,7 +22,7 @@
 This project implements a comprehensive multimodal retrieval-augmented generation system focused on CFA publications. The system scrapes CFA PDFs, processes them to extract text and images, vectorizes the content into searchable embeddings, and provides an intelligent Q&A interface that leverages the multimodal data for accurate and context-aware responses.
 
 ## Demo and Access
-- **Demo Video Link**: [Demo Video Link]()
+- **Demo Video Link**: [Demo Video Link](https://youtu.be/5hvMmLP_4Xw)
 - **Application URL**: [http://35.188.146.35:8501](http://35.188.146.35:8501)
 - **Backend Service**: [http://35.188.146.35:8000/docs](http://35.188.146.35:8000/docs)
 
